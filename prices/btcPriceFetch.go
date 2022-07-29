@@ -11,7 +11,7 @@ type RespAPI struct {
 	Bitcoin struct {
 		USD    int64 `json:"usd"`
 		Latest int64 `json:"last_updated_at"`
-	}
+	} `json:"bitcoin"`
 }
 
 func GetPrice() (price int64) {
