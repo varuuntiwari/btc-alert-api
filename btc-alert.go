@@ -10,6 +10,7 @@ import (
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/alerts/create", h.CreateAlert).Methods("GET")
+	router.HandleFunc("/alerts/delete", h.DeleteAlert).Methods("GET")
 	http.Handle("/", router)
 
 	http.ListenAndServe(":8080", router)
