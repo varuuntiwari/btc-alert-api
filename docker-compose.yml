@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  db:
+    container_name: "mongo"
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+    command: [--auth]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=toor
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks:
+      - backend
+    
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    depends_on:
+      - db
+    networks:
+      - backend
+    environment:
+      - MONGO_URI=mongodb://root:toor@mongo:27017
+
+networks:
+  backend:

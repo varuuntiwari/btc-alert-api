@@ -9,14 +9,14 @@ import (
 
 type RespAPI struct {
 	Bitcoin struct {
-		USD    int64 `json:"usd"`
+		USD    float64 `json:"usd"`
 		Latest int64 `json:"last_updated_at"`
 	} `json:"bitcoin"`
 }
 
-func GetPrice() (price int64) {
-	url := "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_last_updated_at=true"
+var url string = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_last_updated_at=true"
 
+func GetPrice() (price float64) {
 	cli := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -35,7 +35,5 @@ func GetPrice() (price int64) {
 	}
 	var priceResp RespAPI
 	json.Unmarshal(body, &priceResp)
-	log.Printf("%+v\n", priceResp)
-
 	return priceResp.Bitcoin.USD
 }

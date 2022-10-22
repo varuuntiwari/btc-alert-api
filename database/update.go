@@ -3,6 +3,7 @@ package database
 import (
 	"context"
 	"log"
+	"os"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -15,9 +16,10 @@ type Record struct {
 	Status       string `bson:"stat"`
 }
 
-const URI string = "mongodb+srv://alertdb.ydzzrth.mongodb.net/?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority&tlsCertificateKeyFile=/home/retr0/Github-repos/btc-alert-api/mongoAccess.pem"
+var URI = os.Getenv("MONGO_URI")
 
 func AddAlert(email string, priceCheck int64) error {
+	log.Printf("%v\n", URI)
 	newAlert := Record{
 		Email:        email,
 		PriceToCheck: priceCheck,
